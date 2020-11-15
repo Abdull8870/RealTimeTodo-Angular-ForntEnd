@@ -1,0 +1,62 @@
+<!-- Material form subscription -->
+<div class="d-flex justify-content-center mt-2" *ngIf="isLoading">
+  <div class="spinner-border" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>
+<div class="card" *ngIf="isForgetPassword">
+    <h5 class="card-header info-color white-text text-center py-4">
+        <strong>FORGET PASSWORD</strong>
+    </h5>
+    <!--Card content-->
+    <div class="card-body px-lg-5">
+
+        <!-- Form -->
+        <form class="text-center" style="color: #757575;" (submit)="onForgetPassword(forgetPassword)" #forgetPassword="ngForm" *ngIf="!isLoading">
+            <div class="form-group">
+              <label for="email">ENTER YOUR EMAILID:</label>
+              <input class="form-control" name="email" ngModel type="email" placeholder="E-Mail"
+              #emailInput="ngModel" required email
+               [ngClass]=" (emailInput.invalid && emailInput.touched) ? 'is-invalid': (emailInput.valid && emailInput.touched)? 'is-valid': '' ">
+              <div class="invalid-feedback">
+              Please enter a valid email
+              </div>
+            </div>
+          <!-- Sign in button -->
+            <button class="btn btn-outline-info btn-rounded btn-block z-depth-0 my-4 waves-effect" type="submit"
+             [disabled]="!forgetPassword.valid">RESET</button>
+        </form>
+        <!-- Form -->
+    </div>
+</div>
+<!-- Material form subscription -->
+<div class="card" *ngIf="!isForgetPassword">
+    <h5 class="card-header info-color white-text text-center py-4">
+        <strong>PASSWORD RESET</strong>
+    </h5>
+    <!--Card content-->
+    <div class="card-body px-lg-5">
+
+        <!-- Form -->
+        <form class="text-center" style="color: #757575;"  (submit)="onRest(ResetForm)" #ResetForm="ngForm" *ngIf="!isLoading">
+            <div class="form-group">
+              <label for="email">ENTER YOUR NEW PASSWORD:</label>
+              <input pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" type="password"
+              name="password" ngModel class="form-control"
+              placeholder="New Password" #passInput="ngModel" required
+              [ngClass]=" (passInput.invalid && passInput.touched) ? 'is-invalid': (passInput.valid && passInput.touched)? 'is-valid': '' ">
+             <div class="invalid-feedback">
+              Your password must be a combination of uppercase,lowercase and numbers
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="email">ENTER RESET CODE</label>
+              <input class="form-control" name="code" ngModel type="text" placeholder="Enter the reset Code" #textInput="ngModel" required>
+            </div>
+          <!-- Sign in button -->
+            <button class="btn btn-outline-info btn-rounded btn-block z-depth-0 my-4 waves-effect" type="submit"
+             [disabled]="!ResetForm.valid">RESET</button>
+        </form>
+        <!-- Form -->
+    </div>
+</div>

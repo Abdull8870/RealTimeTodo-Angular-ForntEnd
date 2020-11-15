@@ -1,0 +1,180 @@
+<div class="d-flex justify-content-center mt-2" *ngIf="isLoading">
+  <div class="spinner-border" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>
+
+<mdb-card *ngIf="!isLoading">
+
+  <mdb-card-body>
+
+    <mdb-card-title style="text-align:center;">
+      <h4 style="margin:0;display:inline-block;">Activity Name : {{activity.activityName}}</h4>
+        <button type="button" name="button" class="btn btn-primary ml-2" (click)="changeTitle.show()">EDIT THE ACTIVITY NAME</button>
+    </mdb-card-title>
+
+    <div class="">
+      <p class="mt-2">DESCRIPTION : {{activity.description}}</p>
+        <button type="button" name="button" class="btn btn-primary ml-2"
+        (click)="changeDescription.show()">EDIT THE DESCRIPTION</button>
+      <h5>ITEMS IN THE LIST</h5>
+      <ul class="list-group">
+       <li class="list-group-item list-group-item-success mt-2"
+       *ngFor="let mainList of activity.mainlist;let j=index"
+       [ngClass]="mainList.active ? 'list-group-item-success':'list-group-item-danger'">
+        <h5 style="margin:0;display:inline-block;" *ngIf="mainList.active">{{j+1}}) {{mainList.listName}}</h5>
+        <h5 style="margin:0;display:inline-block;" *ngIf="!mainList.active"><s>{{j+1}}) {{mainList.listName}}</s></h5>
+        <span *ngIf="!mainList.active">ITEM DONE</span>
+        <button type="button" name="button" class="btn btn-primary ml-2"
+        (click)="changeItemName.show();itemId(mainList._id,mainList.listName)">EDIT</button>
+          <button type="button" name="button" class="btn btn-danger ml-2" (click)="onDeleteItem(mainList._id,mainList.listName)">DELETE</button>
+        <div class="">
+          <ul class="list-group">
+          <li class="list-group-item list-group-item mt-2" *ngFor="let subItems of mainList.subItems">
+          <h5 *ngIf="subItems.active">{{subItems.subItemName}} <span class="dot"></span></h5>
+            <h5 *ngIf="!subItems.active"><s>{{subItems.subItemName}}</s></h5>
+              <span *ngIf="!subItems.active"> ITEM DONE</span>
+              <button type="button" name="button"
+              (click)="changeSubItemName.show();subItemId(mainList._id,subItems._id,mainList.listName,subItems.subItemName)" class="btn btn-primary ml-2">EDIT</button>
+              <button type="button" name="button" class="btn btn-danger ml-2" (click)="onDeleteSubItem(mainList._id,subItems._id,mainList.listName,subItems.subItemName)">DELETE</button>
+          </li>
+
+          </ul>
+        </div>
+      </li>
+      </ul>
+        <button type="button" name="button" class="btn btn-primary mt-2" (click)="onBackFriendsActivities()" >BACK TO ALL ACTIVITIES</button>
+        <button type="button" name="button" class="btn btn-danger ml-2" (click)="onDeleteActivity()">DELETE ENTIRE ACTIVITY</button>
+    </div>
+
+  </mdb-card-body>
+</mdb-card>
+
+<!-- Add an list in the  Activity  -->
+
+<div mdbModal #changeTitle="mdbModal" class="modal fade left" id="frameModalTop" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 h-60 font-weight-bold">EDIT TITLE</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="changeTitle.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+      <form class="text-center border border-light p-5"  (submit)="onChangeTitle(changeTitleForm)" #changeTitleForm="ngForm">
+      <p class="h4 mb-4">CHANGE THE TITLE</p>
+
+    <div class="form-group">
+      <div class="md-form">
+      <input type="text" id="cTitle" name="cTitle"
+      class="form-control mb-4" placeholder="Change title" ngModel
+      #listName="ngModel" required >
+      </div>
+    </div>
+    <button class="btn btn-info btn-block my-4" [disabled]="!changeTitleForm.valid" type="submit" (click)="changeTitle.hide()">SAVE</button>
+   </form>
+
+    </div>
+  </div>
+</div>
+
+</div>
+
+
+<!-- Edit Description  -->
+
+<div mdbModal #changeDescription="mdbModal" class="modal fade left" id="frameModalTop" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 h-60 font-weight-bold">EDIT DESCRIPTION</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="changeDescription.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+      <form class="text-center border border-light p-5"  (submit)="onChangeDesc(changeDescForm)" #changeDescForm="ngForm">
+      <p class="h4 mb-4">CHANGE THE DESCRIPTION</p>
+
+    <div class="form-group">
+      <div class="md-form">
+      <input type="text" id="cTitle" name="cDesc"
+      class="form-control mb-4" placeholder="Change Description" ngModel
+      #listName="ngModel" required >
+      </div>
+    </div>
+    <button class="btn btn-info btn-block my-4" [disabled]="!changeDescForm.valid" type="submit" (click)="changeDescription.hide()">SAVE</button>
+   </form>
+
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- Edit Item Name -->
+
+<div mdbModal #changeItemName="mdbModal" class="modal fade left" id="frameModalTop" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 h-60 font-weight-bold">EDIT ITEM NAME</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="changeItemName.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+      <form class="text-center border border-light p-5"  (submit)="onChangeItem(changeItemForm)" #changeItemForm="ngForm">
+      <p class="h4 mb-4">CHANGE THE ITEM NAME</p>
+
+    <div class="form-group">
+      <div class="md-form">
+      <input type="text" id="cTitle" name="cItem"
+      class="form-control mb-4" placeholder="Change ITEM NAME" ngModel
+      #listName="ngModel" required >
+      </div>
+    </div>
+    <button class="btn btn-info btn-block my-4" [disabled]="!changeItemForm.valid" type="submit" (click)="changeItemName.hide()">SAVE</button>
+   </form>
+
+    </div>
+  </div>
+</div>
+
+</div>
+
+
+<!-- Edit Sub Item Name -->
+
+<div mdbModal #changeSubItemName="mdbModal" class="modal fade left" id="frameModalTop" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 h-60 font-weight-bold">EDIT SUB ITEM NAME</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="changeSubItemName.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+      <form class="text-center border border-light p-5"  (submit)="onChangeSubItem(changeSubItemForm)" #changeSubItemForm="ngForm">
+      <p class="h4 mb-4">CHANGE THE SUB ITEM NAME</p>
+
+    <div class="form-group">
+      <div class="md-form">
+      <input type="text" id="cTitle" name="cSubItem"
+      class="form-control mb-4" placeholder="Change Sub Item Name" ngModel
+      #listName="ngModel" required >
+      </div>
+    </div>
+    <button class="btn btn-info btn-block my-4" [disabled]="!changeSubItemForm.valid" type="submit" (click)="changeSubItemName.hide()">SAVE</button>
+   </form>
+
+    </div>
+  </div>
+</div>
+
+</div>

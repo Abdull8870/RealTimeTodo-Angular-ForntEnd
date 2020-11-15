@@ -1,0 +1,24 @@
+mdb-card {
+  width: auto;
+  margin: auto;
+}
+
+@media screen and (max-width: 600px) {
+
+  mdb-card {
+    width: auto;
+    margin: auto;
+  }
+
+  button{
+
+    margin:auto;
+    width: auto;
+  }
+
+  .modal {
+    height: vh80;
+    width: vw80;
+  }
+
+}
