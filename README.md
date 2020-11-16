@@ -120,7 +120,6 @@ code for mobile number (like 91 for India) will be automatically selected after 
 ## MEAN APPLICATION BUILT WITH
 
 * [Angular](https://angular.io/) - Front End framework
-* [NPM](https://www.npmjs.com/) 
 * [nodemailer](https://nodemailer.com/about/) - For Sending Mails
 * [Nodejs](https://nodejs.org/en/) - Used for Backend 
 * [ExpressJs](https://expressjs.com/) - Used for Backend
