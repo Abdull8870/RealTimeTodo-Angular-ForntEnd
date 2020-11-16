@@ -10,8 +10,10 @@ before submission. There should be two separate parts of the application. A Fron
 developed and deployed using the technologies mentioned below and a REST API (with
 realtime functionalities) created using the technologies mentioned below.
 
-Frontend Technologies - HTML5, CSS3, JS, Bootstrap and Angular
+Frontend Technologies - HTML5, CSS3, JS, Bootstrap and Angular 
+
 Backend Technologies - NodeJS, ExpressJS and Socket.IO
+
 Database - MongoDB and Redis
 
 ## How to Use
