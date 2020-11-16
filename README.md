@@ -1,5 +1,7 @@
 # REALTIME TODO LIST 
 
+* [RealTimeTodoList WebSite](http://realtime-todo-list.s3-website-ap-southeast-1.amazonaws.com/) - Hosted the Application in AWS
+
 ## How to Use
 
 Run "npm install" inside this project folder to install all dependencies.
