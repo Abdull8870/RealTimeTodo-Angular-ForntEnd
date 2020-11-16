@@ -1,6 +1,6 @@
 # REALTIME TODO LIST 
 
-## How to User
+## How to Use
 
 Run "npm install" inside this project folder to install all dependencies.
 
@@ -103,10 +103,12 @@ code for mobile number (like 91 for India) will be automatically selected after 
 
 ## MEAN APPLICATION BUILT WITH
 
-* [Angular](https://angular.io/) - 
-* [NPM](https://www.npmjs.com/) - Most of the modules are used
-* [nodemailer](https://nodemailer.com/about/) - NPM module to send the mails
-* [apiDoc](http://apidocjs.com/) - NPM module to create the apiDoc and eventDoc
+* [Angular](https://angular.io/) - Front End framework
+* [NPM](https://www.npmjs.com/) 
+* [nodemailer](https://nodemailer.com/about/) - For Sending Mails
+* [Nodejs](https://nodejs.org/en/) - Used for Backend 
+* [ExpressJs](https://expressjs.com/) - Used for Backend
+* [Mongoose](https://mongoosejs.com/) - Database
 
 
 ## DEVELOPMENT DETAILS
