@@ -1,0 +1,73 @@
+<div class="d-flex justify-content-center mt-2" *ngIf="loading">
+  <div class="spinner-border" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>
+<!-- Card -->
+<div class="card m-2" *ngIf="!loading">
+  <!-- Cd image --
+  <!-- Card content -->
+  <div class="card-body">
+   <!-- Title -->
+  <h5 class="card-title">REAL TIME TO DO LIST</h5>
+  <!-- <button type="button" mdbBtn color="secondary" style="float:rigt;display:inline-block;" mdbWavesEffect>CREATE A NEW LIST</button> -->
+    <!-- Text -->
+    <button mdbBtn gradient="blue" rounded="true" type="button" mdbWavesEffect (click)="onBackFriendsActivities()">BACK TO ALL ACTIVITIES</button>
+
+  </div>
+
+</div>
+<p *ngIf="allActivity.length<1 && !loading" style="text-align:center;">
+ YOUR FRIEND DONT HAVE ANY COMPLETED TODO LIST
+</p>
+
+
+<div class="container" *ngIf="allActivity.length>0 && !loading">
+<div class="row mt-2">
+  <div class="col-md-12 sm-12 mt-2" *ngFor="let list of allActivity;let i=index">
+    <mdb-card>
+      <!--Card content-->
+      <mdb-card-body>
+        <!--Title-->
+        <mdb-card-title style="text-align:center;">
+          <h4 style="margin:0;display:inline-block;">TODO LIST NAME : {{list.activityName}}</h4>
+          <button mdbBtn gradient="blue" rounded="true" type="button" mdbWavesEffect (click)="test.toggle()">
+            CLICK TO SEE DETAILS
+          </button>
+        </mdb-card-title>
+
+        <div class="" mdbCollapse #test="bs-collapse">
+          <p>DESCRIPTION : {{list.description}}</p>
+          <h5>ITEMS IN THE LIST</h5>
+          <ul class="list-group">
+           <li class="list-group-item list-group-item-success"
+           *ngFor="let mainList of list.mainlist;let j=index"
+           [ngClass]="mainList.active ? 'list-group-item-success':'list-group-item-danger'">
+            <h5 style="margin:0;display:inline-block;" *ngIf="mainList.active">{{j+1}}) {{mainList.listName}}</h5>
+            <h5 style="margin:0;display:inline-block;" *ngIf="!mainList.active"><s>{{j+1}}) {{mainList.listName}}</s></h5>
+            <button class="btn btn-primary" type="button" *ngIf="mainList.active" (click)="test1.toggle()">
+              SUB ITEMS
+            </button>
+            <span *ngIf="!mainList.active">ITEM DONE</span>
+            <div class="" mdbCollapse #test1="bs-collapse">
+              <li class="list-group-item list-group-item" *ngIf="mainList.subItems.length < 1">There's No SubItems</li>
+              <ul class="list-group">
+              <li class="list-group-item list-group-item" *ngFor="let subItems of mainList.subItems">
+              <h5 *ngIf="subItems.active">{{subItems.subItemName}} <span class="dot"></span></h5>
+                <h5 *ngIf="!subItems.active"><s>{{subItems.subItemName}}</s></h5>
+                  <span *ngIf="!subItems.active"> ITEM DONE</span>
+              </li>
+              </ul>
+            </div>
+          </li>
+          </ul>
+          <p>last modified By {{list.modifiedBy}}</p>
+          <button type="button" name="button" class="btn btn-primary" (click)="onOpenActivity(list._id,list.activityName)">OPEN THE ACTIVITY</button>
+        </div>
+      </mdb-card-body>
+    </mdb-card>
+  </div>
+</div>
+
+
+</div>

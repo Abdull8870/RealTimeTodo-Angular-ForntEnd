@@ -1,0 +1,65 @@
+// .card {
+//   text-align: center;
+//
+// }
+.dot {
+  height: 10px;
+  width: 10px;
+  background-color:green;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+
+h5{
+  margin:0;
+  display: inline-block;
+}
+
+
+.content {
+  width: 40%;
+  margin: auto;
+}
+form{
+  width: auto;
+  margin: auto;
+}
+
+mdb-card {
+  width: auto;
+  margin: auto;
+}
+
+ng-template{
+
+  width: auto;
+  margin: auto;
+  height: auto;
+
+}
+
+@media screen and (max-width: 600px) {
+
+  form {
+    width: auto;
+    height: auto;
+    margin: auto;
+  }
+
+  mdb-card {
+    width: auto;
+    margin: auto;
+  }
+
+  ng-template{
+
+    width: auto;
+    margin: auto;
+    height: auto;
+
+  }
+
+
+
+}

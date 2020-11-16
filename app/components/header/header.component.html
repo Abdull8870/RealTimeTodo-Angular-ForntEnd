@@ -1,0 +1,38 @@
+<mdb-navbar SideClass="navbar navbar-expand-lg navbar-dark primary-color" [containerInside]="false" #navbar>
+
+
+  <mdb-navbar-brand><a class="navbar-brand"><b>REALTIME TODO LIST</b></a></mdb-navbar-brand>
+
+
+  <links>
+
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link waves-light" routerLink='/home' routerLinkActive="active" mdbWavesEffect>HOME</a>
+        <!-- <a class="nav-link waves-light" routerLink='/home' routerLinkActive="active" mdbWavesEffect>HOME<span class="sr-only">(current)</span></a> -->
+      </li>
+      <li class="nav-item">
+        <a class="nav-link waves-light" routerLink='/todo' routerLinkActive="active" mdbWavesEffect>TODO ACTIVITY</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link waves-light" mdbWavesEffect routerLink="/friends"  routerLinkActive="active">FRIENDS</a>
+      </li>
+    </ul>
+
+    <ul class="nav navbar-nav navbar-right mr-5">
+      <li class="nav-item">
+        <a class="nav-link waves-light" mdbWavesEffect routerLink='/profile' routerLinkActive="active">
+        <i class="fas fa-user"></i>
+      </a>
+      </li>
+  </ul>
+    <!-- <form class="form-inline waves-light" mdbWavesEffect>
+      <div class="md-form my-0">
+        <input class="form-control mr-sm-2" type="text" placeholder="Search">
+      </div>
+    </form> -->
+  </links>
+
+
+</mdb-navbar>
+<!--Navbar -->

@@ -1,0 +1,21 @@
+<!-- Card -->
+<div class="d-flex justify-content-center mt-2" *ngIf="isLoading">
+  <div class="spinner-border" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>
+<div class="card mt-2" *ngIf="!isLoading">
+  <!-- Card content -->
+  <div class="card-body">
+
+    <!-- Title -->
+    <h4 class="card-title">Hi! {{user}}</h4>
+    <!-- Text -->
+    <p class="card-text">Hope you had organised your activity well</p>
+    <!-- Button -->
+    <a (click)="onLogOut()" class="btn btn-primary">LOGOUT</a>
+
+  </div>
+
+</div>
+<!-- Card -->

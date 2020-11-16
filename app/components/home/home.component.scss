@@ -1,0 +1,15 @@
+mdb-card {
+  width: 50%;
+  margin: auto;
+}
+
+@media screen and (max-width: 600px) {
+
+
+  mdb-card {
+    width: 90%;
+    margin: auto;
+  }
+
+
+}

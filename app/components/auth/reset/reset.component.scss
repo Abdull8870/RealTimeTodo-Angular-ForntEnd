@@ -1,0 +1,18 @@
+.card {
+  width: 40%;
+  margin: auto;
+}
+
+@media screen and (max-width: 600px) {
+
+  form {
+    width: 80%;
+    margin: auto;
+  }
+
+  .card {
+    width: 80%;
+    margin: auto;
+  }
+
+}
