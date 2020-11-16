@@ -2,6 +2,18 @@
 
 * [RealTimeTodoList WebSite](http://realtime-todo-list.s3-website-ap-southeast-1.amazonaws.com/) - Hosted the Application in AWS
 
+## About the Application
+
+This project is aimed to create a ready to deploy Live TODO List management system.
+It must have all the features mentioned below and it must be deployed on a server
+before submission. There should be two separate parts of the application. A Frontend
+developed and deployed using the technologies mentioned below and a REST API (with
+realtime functionalities) created using the technologies mentioned below.
+
+Frontend Technologies - HTML5, CSS3, JS, Bootstrap and Angular
+Backend Technologies - NodeJS, ExpressJS and Socket.IO
+Database - MongoDB and Redis
+
 ## How to Use
 
 Run "npm install" inside this project folder to install all dependencies.
