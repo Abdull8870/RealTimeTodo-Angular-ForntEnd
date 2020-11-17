@@ -9,7 +9,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { WebsocketsService } from '../../websockets.service';
 import { ToastrService } from 'ngx-toastr';
-
+import { FriendService } from '../../services/friends.service';
 
 @Component({
   selector: 'app-friendstododeleted',
@@ -26,10 +26,11 @@ export class FriendstododeletedComponent implements OnInit ,OnDestroy{
   activityId:string;
   name:string;
   private liveSub:Subscription;
+  private unfriendSub:Subscription;
 
   constructor(private todoService:FriendsTodoService,
   private route: ActivatedRoute,private router: Router,private webSocketService:WebsocketsService,
-  private toastr: ToastrService) { }
+  private toastr: ToastrService,private friendsService:FriendService) { }
 
   ngOnInit(): void {
     this.name=localStorage.getItem("name");
@@ -55,12 +56,19 @@ export class FriendstododeletedComponent implements OnInit ,OnDestroy{
 
    });
    let id=localStorage.getItem("fId");
-   this.liveSub=this.webSocketService.listenLiveActivity(id).subscribe(result=>{
+   this.liveSub=this.webSocketService.listenLiveActivity(id).subscribe((result:{information:string,msg:string})=>{
      this.loading=true;
      this.todoService.getActivity();
-     this.toastr.success("",'An update Has been Made', {
+     this.toastr.success(result.information,'An update Has been Made', {
      timeOut: 3000,
      });
+   });
+
+   this.unfriendSub=this.friendsService.getUnfiendAsObservable().subscribe(result=>{
+      this.router.navigate(['/friends']);
+      this.toastr.info(`You are no more friend with the user`, 'Authorization Removed', {
+      timeOut: 5000,
+      });
    });
 
   }
@@ -77,5 +85,6 @@ export class FriendstododeletedComponent implements OnInit ,OnDestroy{
 
   ngOnDestroy(){
     this.liveSub.unsubscribe();
+    this.unfriendSub.unsubscribe();
   }
 }

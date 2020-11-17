@@ -9,7 +9,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { WebsocketsService } from '../../websockets.service';
 import { Subscription } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
-
+import { FriendService } from '../../services/friends.service';
 
 @Component({
   selector: 'app-friendstodolist',
@@ -32,7 +32,9 @@ export class FriendstodolistComponent implements OnInit,OnDestroy {
   name:string;
 
   constructor(private todoService:FriendsTodoService,private router: Router,
-    private route: ActivatedRoute,private webSocketService:WebsocketsService,private toastr: ToastrService) { }
+    private route: ActivatedRoute,
+    private webSocketService:WebsocketsService,
+    private toastr: ToastrService,private friendsService:FriendService) { }
 
   ngOnInit(): void {
     this.name=localStorage.getItem("name");
@@ -55,7 +57,7 @@ export class FriendstodolistComponent implements OnInit,OnDestroy {
           });
         }
       );
-    this.validatingForm = new FormGroup({
+     this.validatingForm = new FormGroup({
      signupFormModalName: new FormControl('', Validators.required),
      signupFormModalEmail: new FormControl('', Validators.email),
      signupFormModalPassword: new FormControl('', Validators.required),
@@ -71,6 +73,13 @@ export class FriendstodolistComponent implements OnInit,OnDestroy {
      });
      this.loading=false;
 
+   });
+
+   this.friendsService.getUnfiendAsObservable().subscribe(result=>{
+      this.router.navigate(['/friends']);
+      this.toastr.info(`You are no more friend with the user`, 'Authorization Removed', {
+      timeOut: 5000,
+      });
    });
 
 
@@ -91,6 +100,7 @@ export class FriendstodolistComponent implements OnInit,OnDestroy {
      };
      this.todoService.addActivity(activity);
       this.loading=true;
+      form.reset();
    }
 
    onSubItem(form:NgForm){
@@ -98,6 +108,7 @@ export class FriendstodolistComponent implements OnInit,OnDestroy {
 
      this.todoService.addSubActivity(subItem,this.addSubActivityId,this.itemID);
      this.loading=true;
+     form.reset();
    }
 
    onNewListItem(form:NgForm){

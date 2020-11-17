@@ -8,7 +8,7 @@ import { AuthService } from '../../services/auth.service';
 import { Subscription } from 'rxjs';
 import { WebsocketsService } from '../../websockets.service';
 import { ToastrService } from 'ngx-toastr';
-
+import { FriendService } from '../../services/friends.service';
 
 @Component({
   selector: 'app-friendstodo-edit',
@@ -28,10 +28,13 @@ export class FriendstodoEditComponent implements OnInit,OnDestroy {
   name:string;
   desc:string;
   private liveSub:Subscription;
+  private unfriendSub:Subscription;
 
   constructor(private route: ActivatedRoute,
   private editService:FriendsEditService,private router: Router,
-  private authService:AuthService,private webSocketService:WebsocketsService,private toastr: ToastrService) { }
+  private authService:AuthService,
+  private webSocketService:WebsocketsService,
+  private toastr: ToastrService,private friendsService:FriendService) { }
 
 
   ngOnInit(): void {
@@ -53,13 +56,21 @@ export class FriendstodoEditComponent implements OnInit,OnDestroy {
     });
 
     let id=localStorage.getItem("fId");
+    this.editService.storeUserId(id);
 
-    this.liveSub=this.webSocketService.listenLiveActivity(id).subscribe(result=>{
+    this.liveSub=this.webSocketService.listenLiveActivity(id).subscribe((result:{information:string,msg:string})=>{
       this.isLoading=true;
       this.editService.getEditActivity(this.id);
-      this.toastr.success("",'An update Has been Made', {
+      this.toastr.success(result.information,'An update Has been Made', {
       timeOut: 3000,
       });
+    });
+
+    this.unfriendSub=this.friendsService.getUnfiendAsObservable().subscribe(result=>{
+       this.router.navigate(['/friends']);
+       this.toastr.info(`You are no more friend with the user`, 'Authorization Removed', {
+       timeOut: 5000,
+       });
     });
   }
 
@@ -82,6 +93,7 @@ export class FriendstodoEditComponent implements OnInit,OnDestroy {
     const title=form.value.cTitle;
     let information=`${this.name} has changed the title of todoactvity ${this.activityName} as ${title}`;
     this.editService.changeTitle(this.id,title,information);
+    form.reset();
   }
 
   onChangeDesc(form:NgForm){
@@ -89,7 +101,7 @@ export class FriendstodoEditComponent implements OnInit,OnDestroy {
    const desc=form.value.cDesc;
    let information=`${this.name} has changed the description of todoactvity ${this.activityName} as ${this.desc}`;
    this.editService.changeDesc(this.id,desc,information);
-
+   form.reset();
   }
 
   onChangeSubItem(form:NgForm){
@@ -97,6 +109,7 @@ export class FriendstodoEditComponent implements OnInit,OnDestroy {
   const subItemName=form.value.cSubItem;
   let information=`${this.name} has changed the subitem of in the list ${this.listName} of todoactvity ${this.activityName} as ${subItemName}`;
   this.editService.changeSubItemName(this.id,this.mainItemId,this.cSubItemId,subItemName,information)
+  form.reset();
   }
 
   onChangeItem(form:NgForm){
@@ -104,6 +117,7 @@ export class FriendstodoEditComponent implements OnInit,OnDestroy {
   const itemName=form.value.cItem;
   let information=`${this.name} has changed the name of list ${this.listName} in todoactvity ${this.activityName} as ${itemName}`;
   this.editService.changeItemName(this.id,this.mainItemId,itemName,information);
+   form.reset();
   }
 
   onDeleteItem(iId:string,itemName:string){
@@ -138,6 +152,7 @@ export class FriendstodoEditComponent implements OnInit,OnDestroy {
 
   ngOnDestroy(){
     this.liveSub.unsubscribe();
+    this.unfriendSub.unsubscribe();
   }
 
 }

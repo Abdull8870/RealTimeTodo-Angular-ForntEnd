@@ -9,6 +9,11 @@ import { Observable } from "rxjs";
 import { AuthService } from "./auth.service";
 import { ToastrService } from 'ngx-toastr';
 
+/**
+* @description prevent the user from accessing the application if not authenticated
+* @author Abdul Rahuman
+*/
+
 
 @Injectable()
 export class AuthGuard implements CanActivate {

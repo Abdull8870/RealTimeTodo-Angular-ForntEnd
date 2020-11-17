@@ -9,6 +9,12 @@ import { Observable } from "rxjs";
 import { AuthService } from "./auth.service";
 import { ToastrService } from 'ngx-toastr';
 
+/**
+* @description prevent the user from accessing some part of  application after authenticated
+* @author Abdul Rahuman
+*/
+
+
 @Injectable()
 export class AfterAuthGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router,private toastr: ToastrService) {}

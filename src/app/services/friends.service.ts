@@ -20,9 +20,15 @@ export class FriendService {
   private allUsers = new Subject<{allUsers:any[]}>();
   private friendRequestSent = new Subject<{friendRequest:Friend[]}>();
   private friendRequestReceived = new Subject<{friendReqReceived:Friend[]}>();
+  private unfriend = new Subject<{unfriend:boolean}>();
 
   constructor(private http: HttpClient, private router: Router,
   private toastr: ToastrService,private webSocketService:WebsocketsService) {}
+
+  /**
+ * @description listen to live status of friends
+ * @author Abdul Rahuman
+ */
 
 
   listenLiveFriendUpdates(id:string){
@@ -33,9 +39,13 @@ export class FriendService {
        this.toastr.info(result.info,result.type, {
        timeOut: 5000,
        });
+
+       if(result.info.includes("Unfriend")){
+         this.unfriend.next({unfriend:true});
+       }
     }
     },error=>{
-      
+
       this.getAllUsers();
       this.toastr.error(`Getting live friends update failed`, 'AN ERROR OCCURED', {
       timeOut: 5000,
@@ -44,22 +54,49 @@ export class FriendService {
 
   }
 
+  /**
+ * @description send data whenever a friend unfriends
+ * @author Abdul Rahuman
+ */
 
+
+  getUnfiendAsObservable(){
+    return this.unfriend.asObservable();
+  }
+
+  /**
+ * @description sends the friend requests sent as an observable
+ * @author Abdul Rahuman
+ */
 
  getfriendRequestSentAsObservable(){
    return this.friendRequestSent.asObservable();
  }
 
 
+ /**
+* @description sends the friend requests received as an observable
+* @author Abdul Rahuman
+*/
+
  getfriendRequestReceivedAsObservable(){
    return this.allUsers.asObservable();
  }
 
+ /**
+* @description sends all the users as an asObservable
+* @author Abdul Rahuman
+*/
 
  getAllUsersAsObservable(){
    return this.allUsers.asObservable();
  }
 
+
+ /**
+* @description request server to get all users
+* @author Abdul Rahuman
+*/
 
   getAllUsers() {
 
@@ -76,6 +113,11 @@ export class FriendService {
     });
   }
 
+  /**
+ * @description request server to send a friend request
+ * @author Abdul Rahuman
+ */
+
   sendRequest(id:string,name:string,email:string){
 
    const data={
@@ -88,11 +130,22 @@ export class FriendService {
 
   }
 
+  /**
+ * @description request server to get the friend requests sent
+ * @author Abdul Rahuman
+ */
+
+
   getFriendRequestSent(){
 
     return this.http.get<{message:"SUCCESS",data:{friendRequestSent:Friend[],friendRequest:Friend[]}}>(BACKEND_URL + "getFriendRequestSent");
 
   }
+
+  /**
+ * @description request server to revoke the friend requests sent
+ * @author Abdul Rahuman
+ */
 
   cancelFriendsRequest(userID:string,storedId:string){
 
@@ -104,6 +157,11 @@ export class FriendService {
      return this.http.post<{message:"SUCCESS",data:any}>(BACKEND_URL + "cancelRequest",data);
 
   }
+
+  /**
+ * @description request server to accept the friend request
+ * @author Abdul Rahuman
+ */
 
   acceptFriendRequest(userID:string,name:string,email:string,_id:string){
 
@@ -119,6 +177,12 @@ export class FriendService {
 
   }
 
+  /**
+ * @description request server to reject the friend request
+ * @author Abdul Rahuman
+ */
+
+
   rejectFriendRequest(userID:string,_id:string){
     const data={
       userID:userID,
@@ -129,11 +193,21 @@ export class FriendService {
 
   }
 
+  /**
+ * @description request server to get the friends details
+ * @author Abdul Rahuman
+ */
+
 
   getFriends(){
 
     return this.http.get<{message:"SUCCESS",data:{friends:Friend[]}}>(BACKEND_URL + "getFriends");
   }
+
+  /**
+ * @description request server to unfriend
+ * @author Abdul Rahuman
+ */
 
   unFriend(userID,storedId){
       const data={
@@ -142,6 +216,11 @@ export class FriendService {
       }
       return this.http.post<{message:"SUCCESS"}>(BACKEND_URL + "unFriend" ,data);
   }
+
+  /**
+ * @description request server to get our friends details as well a request received and sent 
+ * @author Abdul Rahuman
+ */
 
   getall(){
       return this.http.get<{message:"SUCCESS",data:{friends:Friend[],friendRequest:Friend[],friendRequestSent:Friend[] }}>(BACKEND_URL + "all");

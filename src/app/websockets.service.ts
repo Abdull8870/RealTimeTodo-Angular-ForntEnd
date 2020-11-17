@@ -9,7 +9,7 @@ import { HttpClient } from '@angular/common/http';
 export class WebsocketsService {
 
   public socket:any;
-  BACKEND_URL:string="http://localhost:3000";
+  BACKEND_URL:string="http://expensesplitterbackend-env.eba-vpaafhyz.us-east-2.elasticbeanstalk.com";
 
   constructor(private http: HttpClient) {
     this.socket=io(this.BACKEND_URL);

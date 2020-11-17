@@ -62,25 +62,28 @@ export class EditComponent implements OnInit ,OnDestroy{
     this.isLoading=true;
     const title=form.value.cTitle;
     this.editService.changeTitle(this.id,title);
+    form.reset();
   }
 
   onChangeDesc(form:NgForm){
    this.isLoading=true;
    const desc=form.value.cDesc;
    this.editService.changeDesc(this.id,desc);
-
+   form.reset();
   }
 
   onChangeSubItem(form:NgForm){
   this.isLoading=true;
   const subItemName=form.value.cSubItem;
-  this.editService.changeSubItemName(this.id,this.mainItemId,this.cSubItemId,subItemName)
+  this.editService.changeSubItemName(this.id,this.mainItemId,this.cSubItemId,subItemName);
+  form.reset();
   }
 
   onChangeItem(form:NgForm){
   this.isLoading=true;
   const itemName=form.value.cItem;
   this.editService.changeItemName(this.id,this.mainItemId,itemName);
+  form.reset();
   }
 
   onDeleteItem(iId:string){

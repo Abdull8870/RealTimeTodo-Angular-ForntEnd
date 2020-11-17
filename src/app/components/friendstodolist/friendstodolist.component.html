@@ -13,8 +13,8 @@
   <!-- <button type="button" mdbBtn color="secondary" style="float:rigt;display:inline-block;" mdbWavesEffect>CREATE A NEW LIST</button> -->
     <!-- Text -->
 
-    <button type="button" class="btn btn-primary ml-1 mt-auto mb-1" (click)="onFriendsDeletedList()">DELETED TODO LIST</button>
-    <button type="button" class="btn btn-primary ml-1 mt-auto ml-2" (click)="onFriendsCompletedList()">COMPLETED TODO LIST</button>
+    <button type="button" mdbBtn gradient="peach" mdbWavesEffect (click)="onFriendsDeletedList()">DELETED TODO LIST</button>
+    <button type="button" mdbBtn gradient="purple" mdbWavesEffect (click)="onFriendsCompletedList()">COMPLETED TODO LIST</button>
 
   </div>
 
@@ -33,14 +33,15 @@
         <!--Title-->
         <mdb-card-title style="text-align:center;">
           <h4 style="margin:0;display:inline-block;">TODO LIST {{i+1}} : {{list.activityName}}</h4>
-          <button mdbBtn color="primary" class="waves-light" type="button" (click)="test.toggle()" mdbWavesEffect>
+          <button mdbBtn gradient="blue" rounded="true" type="button" (click)="test.toggle()" mdbWavesEffect>
             CLICK TO SEE DETAILS
           </button>
         </mdb-card-title>
 
         <div class="" mdbCollapse #test="bs-collapse">
-          <p>DESCRIPTION : {{list.description}}</p>
-          <h5>ITEMS IN THE LIST</h5>
+          <p class="mt-2 mb-2">DESCRIPTION : {{list.description}}</p>
+          <p class="mt-2 mb-2 text-info" *ngIf="list.mainlist.length < 1">NO ITEMS IN THE LIST</p>
+          <h5 *ngIf="list.mainlist.length > 0">ITEMS IN THE LIST</h5>
           <ul class="list-group">
            <li class="list-group-item list-group-item-success"
            *ngFor="let mainList of list.mainlist;let j=index"

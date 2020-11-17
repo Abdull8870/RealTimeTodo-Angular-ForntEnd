@@ -12,7 +12,7 @@
   <h5 class="card-title">REAL TIME TO DO LIST</h5>
   <!-- <button type="button" mdbBtn color="secondary" style="float:rigt;display:inline-block;" mdbWavesEffect>CREATE A NEW LIST</button> -->
     <!-- Text -->
-    <button type="button" class="btn btn-primary ml-1 mt-auto mb-1" routerLink='/todo'>BACK TO ALL ACTIVITIES</button>
+    <button type="button" mdbBtn gradient="blue" rounded="true" mdbWavesEffect  routerLink='/todo'>BACK TO ALL ACTIVITIES</button>
 
   </div>
 
@@ -31,7 +31,7 @@
         <!--Title-->
         <mdb-card-title style="text-align:center;">
           <h4 style="margin:0;display:inline-block;">TODO LIST NAME : {{list.activityName}}</h4>
-          <button mdbBtn color="primary" class="waves-light" type="button" (click)="test.toggle()" mdbWavesEffect>
+          <button mdbBtn gradient="blue" rounded="true" mdbWavesEffect  type="button" (click)="test.toggle()" mdbWavesEffect>
             CLICK TO SEE DETAILS
           </button>
         </mdb-card-title>

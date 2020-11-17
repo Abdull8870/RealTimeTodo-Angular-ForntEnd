@@ -55,8 +55,10 @@ export class FriendsComponent implements OnInit {
        email:object.email
         }));
       this.onInvalidId();
+    },error=>{
+       this.displayError(`Some Internal Error occured try after sometime`);
+       this.router.navigate(['/todo']);
     });
-
 
 
 
@@ -67,7 +69,6 @@ export class FriendsComponent implements OnInit {
 
   onInvalidId(){
       this.rejectedId=[];
-
       let id=this.authService.getUserId();
       this.friendsService.getall().subscribe(result=>{
       let friends:Friend[]=result.data.friends;
@@ -87,6 +88,9 @@ export class FriendsComponent implements OnInit {
           this.rejectedId.push(element.userID);
       });
 
+    },error=>{
+      this.loading=false;
+       this.displayError(`Fetching Data failed`);
     });
       this.rejectedId.push(id);
       this.loading=false;
@@ -110,7 +114,8 @@ export class FriendsComponent implements OnInit {
       this.friends=true;
       this.onInvalidId();
     },error=>{
-
+        this.displayError(`Fetching Data failed`);
+        this.onInvalidId();
     });
 
 
@@ -130,6 +135,8 @@ export class FriendsComponent implements OnInit {
       },error=>{
 
       this.loading=false;
+      this.displayError(`Fetching Data failed`);
+
      });
 
   }
@@ -147,6 +154,7 @@ export class FriendsComponent implements OnInit {
    this.friendRequest=false;
    this.friendRequestSent=false;
    this.search=true;
+   form.reset();
   }
 
   onSendRequest(id:string,name:string,email:string){
@@ -161,7 +169,8 @@ export class FriendsComponent implements OnInit {
         };
       this.webSocketService.emitLiveFriendsUpdate(updateDetails);
       },error=>{
-
+            this.displayError(`Sending Friend request failed`);
+            this.onFriendRequestSent();
       });
     }
     else {
@@ -189,6 +198,9 @@ export class FriendsComponent implements OnInit {
     },error=>{
 
       this.loading=false;
+      this.displayError(`Cancel Friend request failed`);
+      this.onInvalidId();
+
    });
 
 
@@ -208,6 +220,9 @@ export class FriendsComponent implements OnInit {
     },error=>{
 
 
+       this.onFriendRequestSent();
+       this.displayError(`Cancel Friend request failed`);
+
     });
 
   }
@@ -224,6 +239,9 @@ export class FriendsComponent implements OnInit {
        this.webSocketService.emitLiveFriendsUpdate(updateDetails);
     },error=>{
 
+       this.onFriendRequests();
+       this.displayError(`Accept Friend request failed`);
+
     });
 
     }
@@ -238,7 +256,8 @@ export class FriendsComponent implements OnInit {
         };
       this.webSocketService.emitLiveFriendsUpdate(updateDetails);
       },error=>{
-
+        this.onFriendRequests();
+         this.displayError(`Reject Friend request failed`);
       });
 
     }
@@ -252,13 +271,22 @@ export class FriendsComponent implements OnInit {
           type:"UNFRIEND",
           info:`${this.myName} has Unfriend You`
         };
-      this.webSocketService.emitLiveFriendsUpdate(updateDetails);
+       this.webSocketService.emitLiveFriendsUpdate(updateDetails);
+       localStorage.removeItem("fId");
       },error=>{
-        this.onFriends();
+         this.onFriends();
+         this.displayError(`Unfriend Action failed`);
       });
     }
 
     commonLoading(){
         this.loading=true;
+    }
+
+    displayError(content:string) {
+      this.toastr.error(`${content}`, 'AN ERROR OCCURED', {
+      timeOut: 5000,
+      });
+
     }
 }

@@ -12,10 +12,10 @@
   <h5 class="card-title">REAL TIME TO DO LIST</h5>
   <!-- <button type="button" mdbBtn color="secondary" style="float:rigt;display:inline-block;" mdbWavesEffect>CREATE A NEW LIST</button> -->
     <!-- Text -->
-    <button type="button"  (click)="frame.show()" class="btn btn-primary ml-1 mt-auto mb-1">CREATE A NEW TODO LIST</button>
+    <button type="button"  (click)="frame.show()"  mdbBtn gradient="blue" rounded="true" mdbWavesEffect >CREATE A NEW TODO LIST</button>
 
-    <button type="button" class="btn btn-primary ml-1 mt-auto mb-1" routerLink='/deleted'>DELETED TODO LIST</button>
-    <button type="button" class="btn btn-primary ml-1 mt-auto ml-2" routerLink='/completed'>COMPLETED TODO LIST</button>
+    <button  mdbBtn gradient="peach" mdbWavesEffect routerLink='/deleted'>DELETED TODO LIST</button>
+    <button  mdbBtn type="button" gradient="purple" mdbWavesEffect routerLink='/completed'>COMPLETED TODO LIST</button>
 
   </div>
 
@@ -32,16 +32,17 @@
       <mdb-card-body>
         <!--Title-->
         <mdb-card-title style="text-align:center;">
-          <h4 style="margin:0;display:inline-block;">TODO ACTIVITY {{i+1}} : {{list.activityName}}</h4>
-          <button mdbBtn color="primary" class="waves-light" type="button" (click)="test.toggle()" mdbWavesEffect>
+          <h4 style="margin:0;display:inline-block;" class="mt-1 mb-1">TODO LIST {{i+1}} : {{list.activityName}}</h4>
+          <button mdbBtn gradient="blue" rounded="true" type="button" mdbWavesEffect (click)="test.toggle()" >
             CLICK TO SEE DETAILS
           </button>
         </mdb-card-title>
 
         <div class="" mdbCollapse #test="bs-collapse">
-          <p>DESCRIPTION : {{list.description}}</p>
+          <h4><b style="color:black;">DESCRIPTION :</b> {{list.description}}</h4>
           <h5 *ngIf="list.mainlist.length > 0">ITEMS IN THE TODO LIST</h5>
           <ul class="list-group">
+           <p *ngIf="list.mainlist.length < 1" class="text-info">THERE'S NO ITEMS IN THE TODO LIST CLICK <b>ADD A NEW LIST ITEM</b> BUTTON TO CREATE ONE</p>
            <li class="list-group-item list-group-item-success"
            *ngFor="let mainList of list.mainlist;let j=index"
            [ngClass]="mainList.active ? 'list-group-item-success':'list-group-item-danger'">
@@ -75,9 +76,10 @@
 
           <a  mdbBtn color="primary" mdbWavesEffect (click)="newItemFrame.show();activiyId(list._id)">ADD A NEW LIST ITEM</a>
           <p>last modified By {{list.modifiedBy}}</p>
-          <a  mdbBtn color="primary" mdbWavesEffect (click)="onCompleteActivity(list._id)">MARK THIS ACTIVITY AS COMPLETED</a>
+          <a  mdbBtn color="success" mdbWavesEffect (click)="onCompleteActivity(list._id)">MARK THIS TODO LIST AS COMPLETED</a>
           <button type="button" name="button" class="btn btn-danger" (click)="onUndo(list._id)">UNDO THE LAST MODIFIED ITEM</button>
-          <button type="button" name="button" class="btn btn-primary" (click)="onEdit(list._id)">EDIT / DELETE</button>
+          <button type="button" name="button" class="btn btn-info" (click)="onEdit(list._id)">EDIT / DELETE</button>
+
         </div>
 
       </mdb-card-body>
@@ -206,6 +208,7 @@
       <form *ngIf="allActivity.length > 0" class="text-center border border-light p-5"  (submit)="onUndoActivity(UndoActivity)" #UndoActivity="ngForm">
       <div class="form-group">
       <div class="md-form">
+        <p>Select the TODO Activity to Undo the last Action</p>
         <select class="form-control" ngModel #undoActivity="ngModel" name="undo" required
         [ngClass]=" (undoActivity.invalid && undoActivity.touched) ? 'is-invalid': (undoActivity.valid && undoActivity.touched)? 'is-valid': '' ">
             <option *ngFor="let act of allActivity" [value]="act._id" >{{act.activityName}}</option>

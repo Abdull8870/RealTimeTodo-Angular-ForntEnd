@@ -22,13 +22,25 @@ export class EditService {
 
   constructor(private http: HttpClient, private router: Router,
   private toastr: ToastrService,private webSocketService:WebsocketsService) {
-      this.userName=localStorage.getItem("name");
+
   }
+
+
+  /**
+ * @description Sends the todo list for edit as an observable when called
+ * @author Abdul Rahuman
+ */
 
 
   getActivityAsObervable(){
     return this.activity.asObservable();
   }
+
+
+  /**
+ * @description request the server to get the todo list details to edit
+ * @author Abdul Rahuman
+ */
 
 
   getEditActivity(id:string) {
@@ -45,8 +57,15 @@ export class EditService {
     });
   }
 
+  /**
+ * @description request the server to change the title of the todo list
+ * @author Abdul Rahuman
+ */
+
+
 
   changeTitle(id:string,title:string) {
+    this.userName=localStorage.getItem("name");
     const data={
       id:id,
       title:title
@@ -61,6 +80,7 @@ export class EditService {
        information:`${this.userName} Has made an Update on his todo list`
      };
      this.webSocketService.emitLiveActivity(updateDetails);
+      this.displaySuccess(`The title has been changed Successfully`);
      },error=>{
 
        this.getEditActivity(id);
@@ -70,7 +90,13 @@ export class EditService {
 
   }
 
+  /**
+ * @description request the server to change the description of the todo list
+ * @author Abdul Rahuman
+ */
+
   changeDesc(id:string,desc:string){
+    this.userName=localStorage.getItem("name");
     const data={
       id:id,
       desc:desc
@@ -85,6 +111,7 @@ export class EditService {
        information:`${this.userName} Has made an Update on his todo list`
      };
      this.webSocketService.emitLiveActivity(updateDetails);
+      this.displaySuccess(`The Description has been changed Successfully`);
      },error=>{
 
        this.getEditActivity(id);
@@ -93,7 +120,15 @@ export class EditService {
     });
   }
 
+  /**
+ * @description request the server to change the item name in the todo list
+ * @author Abdul Rahuman
+ */
+
+
+
   changeItemName(id:string,itemId:string,itemName:string){
+    this.userName=localStorage.getItem("name");
     const data={
       id:id,
       itemId:itemId,
@@ -109,6 +144,7 @@ export class EditService {
        information:`${this.userName} Has made an Update on his todo list`
      };
      this.webSocketService.emitLiveActivity(updateDetails);
+      this.displaySuccess(`The item name has been changed Successfully`);
      },error=>{
 
        this.getEditActivity(id);
@@ -117,7 +153,14 @@ export class EditService {
     });
   }
 
+  /**
+ * @description request the server to change the sub item name in the todo list
+ * @author Abdul Rahuman
+ */
+
+
   changeSubItemName(id:string,itemId:string,subItemId:string,subItemName:string){
+    this.userName=localStorage.getItem("name");
     const data={
       id:id,
       itemId:itemId,
@@ -134,6 +177,7 @@ export class EditService {
        information:`${this.userName} Has made an Update on his todo list`
      };
      this.webSocketService.emitLiveActivity(updateDetails);
+     this.displaySuccess(`The sub item name has been changed Successfully`);
      },error=>{
 
        this.getEditActivity(id);
@@ -142,7 +186,14 @@ export class EditService {
     });
   }
 
+  /**
+ * @description request the server to delete an item in the todo list
+ * @author Abdul Rahuman
+ */
+
+
   deleteItem(id:string,itemId:string){
+    this.userName=localStorage.getItem("name");
     const data={
       id:id,
       itemId:itemId
@@ -157,6 +208,7 @@ export class EditService {
        information:`${this.userName} Has made an Update on his todo list`
      };
      this.webSocketService.emitLiveActivity(updateDetails);
+      this.displaySuccess(`The item has been deleted Successfully`);
      },error=>{
 
        this.getEditActivity(id);
@@ -165,7 +217,14 @@ export class EditService {
     });
   }
 
+  /**
+ * @description request the server to delete a sub item in the todo list
+ * @author Abdul Rahuman
+ */
+
+
   deleteSubItem(id:string,itemId:string,subItemId:string){
+    this.userName=localStorage.getItem("name");
     const data={
       id:id,
       itemId:itemId,
@@ -181,6 +240,7 @@ export class EditService {
        information:`${this.userName} Has made an Update on his todo list`
      };
      this.webSocketService.emitLiveActivity(updateDetails);
+      this.displaySuccess(`The sub item has been deleted Successfully`);
      },error=>{
 
        this.getEditActivity(id);
@@ -189,8 +249,13 @@ export class EditService {
     });
   }
 
+  /**
+ * @description request the server to delete a todo list
+ * @author Abdul Rahuman
+ */
 
     deleteActivity(id:string) {
+      this.userName=localStorage.getItem("name");
       const data={
         id:id
       };
@@ -204,6 +269,7 @@ export class EditService {
          information:`${this.userName} Has made an Update on his todo list`
        };
        this.webSocketService.emitLiveActivity(updateDetails);
+       this.displaySuccess(`The todo list has been deleted Successfully`);
        },error=>{
         this.getEditActivity(id);
         this.displayError("Delete Activity Failed");
@@ -212,8 +278,28 @@ export class EditService {
 
     }
 
+    /**
+   * @description triggers notification on error
+   * @author Abdul Rahuman
+   */
+
+
     displayError(content:string) {
+
       this.toastr.error(`${content}`, 'AN ERROR OCCURED', {
+      timeOut: 5000,
+      });
+
+    }
+
+    /**
+   * @description triggers notification on success
+   * @author Abdul Rahuman
+   */
+
+
+    displaySuccess(content:string) {
+      this.toastr.success(`${content}`, 'SUCCESS', {
       timeOut: 5000,
       });
 

@@ -30,6 +30,11 @@ export class FriendsTodoService {
   private toastr: ToastrService,private webSocketService:WebsocketsService) {}
 
 
+  /**
+ * @description Make's a request to the server to add a new todo list
+ * @author Abdul Rahuman
+ */
+
   addActivity(activity:Activity) {
 
     this.http.post<{message:string}>(BACKEND_URL + "add", activity).subscribe(
@@ -52,26 +57,44 @@ export class FriendsTodoService {
     this.friendId=id;
   }
 
+  /**
+ * @description Returns all todo list as a observable when called
+ * @author Abdul Rahuman
+ */
+
+
   getAllActivity(){
     return this.allActivity.asObservable();
   }
+
+
+  /**
+ * @description request to the server to get all todo list of the friend
+ * @author Abdul Rahuman
+ */
 
   getActivity() {
 
     const queryParams= `?friendId=${this.friendId}`;
     this.http.get<{ message:string,allActivity:Todo[]}>(BACKEND_URL + "get" +queryParams).subscribe(
       (result) => {
+
         this.allActivity.next({allActivity:[...result.allActivity]})
 
       },
       error => {
-
-        this.displayError("Fetching Activity failed")
+        this.displayError(error.error.message);
         this.router.navigate(['/friends']);
 
       }
     );
   }
+
+  /**
+ * @description request server to a sub item
+ * @author Abdul Rahuman
+ */
+
 
 
   addSubActivity(subItem:string,actId:string,listId:string){
@@ -92,6 +115,12 @@ export class FriendsTodoService {
   });
   }
 
+  /**
+ * @description request server to add an item on a todo list
+ * @author Abdul Rahuman
+ */
+
+
   addNewList(list:string,_id:string){
     const queryParams= `?friendId=${this.friendId}`;
     const data={
@@ -108,13 +137,19 @@ export class FriendsTodoService {
   });
   }
 
-  markListDone(activityId:string,listId:string,information:string){
+  /**
+ * @description request server to mark an item done
+ * @author Abdul Rahuman
+ */
 
+
+  markListDone(activityId:string,listId:string,information:string){
+    const queryParams= `?friendId=${this.friendId}`;
     const data={
       activityId:activityId,
       listId:listId
     };
-    this.http.post(BACKEND_URL+ "listDone",data).subscribe(data=>{
+    this.http.post(BACKEND_URL+ "listDone"+queryParams,data).subscribe(data=>{
 
       this.getActivity();
 
@@ -135,13 +170,19 @@ export class FriendsTodoService {
 
   }
 
-  markListOpen(activityId:string,listId:string,information:string){
+  /**
+ * @description request server to mark an item open
+ * @author Abdul Rahuman
+ */
 
+
+  markListOpen(activityId:string,listId:string,information:string){
+    const queryParams= `?friendId=${this.friendId}`;
     const data={
       activityId:activityId,
       listId:listId
     };
-    this.http.post(BACKEND_URL+ "listOpen",data).subscribe(data=>{
+    this.http.post(BACKEND_URL+ "listOpen" + queryParams,data).subscribe(data=>{
 
       this.getActivity();
       let updateDetails = {
@@ -159,6 +200,12 @@ export class FriendsTodoService {
 
   }
 
+  /**
+ * @description request server to mark a sub item done
+ * @author Abdul Rahuman
+ */
+
+
    markSubListDone(activityId:string,listId:string,subListId:string,information:string){
 
    const queryParams= `?friendId=${this.friendId}`;
@@ -168,7 +215,7 @@ export class FriendsTodoService {
      subListId:subListId
    };
 
-   this.http.post(BACKEND_URL+ "subListDone",data).subscribe(result=>{
+   this.http.post(BACKEND_URL+ "subListDone" + queryParams,data).subscribe(result=>{
 
      this.getActivity();
      let updateDetails = {
@@ -187,15 +234,21 @@ export class FriendsTodoService {
 
   }
 
+  /**
+ * @description request server to mark a sub item open
+ * @author Abdul Rahuman
+ */
+
+
   markSubListOpen(activityId:string,listId:string,subListId:string,information:string){
    const queryParams= `?friendId=${this.friendId}`;
-  const data={
+   const data={
     activityId:activityId,
     listId:listId,
     subListId:subListId
   };
 
-  this.http.post(BACKEND_URL+ "subListOpen",data).subscribe(result=>{
+  this.http.post(BACKEND_URL+ "subListOpen" + queryParams,data).subscribe(result=>{
 
     this.getActivity();
     let updateDetails = {
@@ -214,12 +267,18 @@ export class FriendsTodoService {
 
  }
 
+ /**
+* @description request server to mark an todo list as completed
+* @author Abdul Rahuman
+*/
+
+
  markActivityCompleted(id:string,information:string){
    const queryParams= `?friendId=${this.friendId}`;
    const data={
      activityId:id
    };
-   this.http.post(BACKEND_URL+ "activityDone",data).subscribe(result=>{
+   this.http.post(BACKEND_URL+ "activityDone" + queryParams,data).subscribe(result=>{
      this.getActivity();
      let updateDetails = {
        friend:this.friendId,
@@ -237,12 +296,17 @@ export class FriendsTodoService {
 
  }
 
+ /**
+* @description request server to restore a todo list
+* @author Abdul Rahuman
+*/
+
  restoreActivity(id:string,information:string){
    const queryParams= `?friendId=${this.friendId}`;
    const data={
      activityId:id
    };
-   this.http.post(BACKEND_URL+ "restoreActivity",data).subscribe(result=>{
+   this.http.post(BACKEND_URL+ "restoreActivity" +queryParams ,data).subscribe(result=>{
      this.getActivity();
      let updateDetails = {
        friend:this.friendId,
@@ -260,12 +324,18 @@ export class FriendsTodoService {
 
  }
 
+ /**
+* @description request server to reopen a todo list
+* @author Abdul Rahuman
+*/
+
+
  openActivity(id:string,information:string){
    const queryParams= `?friendId=${this.friendId}`;
    const data={
      activityId:id
    };
-   this.http.post(BACKEND_URL+ "openActivity",data).subscribe(result=>{
+   this.http.post(BACKEND_URL+ "openActivity" +queryParams ,data).subscribe(result=>{
      this.getActivity();
      let updateDetails = {
        friend:this.friendId,
@@ -281,12 +351,20 @@ export class FriendsTodoService {
    });
  }
 
+
+ /**
+* @description request server to undo the last modified item
+* @author Abdul Rahuman
+*/
+
+
+
   undo(id:string,information:string){
    const queryParams= `?friendId=${this.friendId}`;
    const data={
      id:id
    };
-   this.http.post<{message:string,data:any[],info:string}>(BACKEND_URL+ "undo",data).subscribe(result=>{
+   this.http.post<{message:string,data:any[],info:string}>(BACKEND_URL+ "undo" +queryParams,data).subscribe(result=>{
 
      this.getActivity();
      let updateDetails = {
@@ -310,6 +388,13 @@ export class FriendsTodoService {
      this.getActivity();
    });
  }
+
+
+ /**
+* @description Triggers notification when there's an error
+* @author Abdul Rahuman
+*/
+
 
  displayError(content:string) {
    this.toastr.error(`${content}`, 'AN ERROR OCCURED', {

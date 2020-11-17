@@ -12,9 +12,9 @@
   <!-- <button type="button" mdbBtn color="secondary" style="float:rigt;display:inline-block;" mdbWavesEffect>CREATE A NEW LIST</button> -->
     <!-- Text -->
     <button type="button" class="btn btn-primary ml-2 mr-2 mt-auto mb-1" (click)="onFriends()">FRIENDS ({{totalFriends}})</button>
-        <button type="button" class="btn btn-primary ml-2 mr-2 mt-auto mb-1" (click)="onFriendRequests()">FRIEND REQUESTS ({{totalfriendRequest}})</button>
-          <button type="button" class="btn btn-primary ml-2 mr-2 mt-auto mb-1" (click)="onFriendRequestSent();commonLoading()">FRIEND REQUESTS SENT ({{totalfriendrequestsent}})</button>
-                <button type="button" class="btn btn-primary ml-2 mr-2 mt-auto mb-1" (click)="searchFriends.show()">SEARCH FRIENDS</button>
+        <button type="button" class="btn btn-secondary ml-2 mr-2 mt-auto mb-1" (click)="onFriendRequests()">FRIEND REQUESTS ({{totalfriendRequest}})</button>
+          <button type="button" class="btn btn-info ml-2 mr-2 mt-auto mb-1" (click)="onFriendRequestSent();commonLoading()">FRIEND REQUESTS SENT ({{totalfriendrequestsent}})</button>
+                <button type="button" class="btn btn-success ml-2 mr-2 mt-auto mb-1" (click)="searchFriends.show()">SEARCH FRIENDS</button>
 
   </div>
 
@@ -26,6 +26,7 @@
 
 <div class="container" *ngIf="friends && !loading">
 <div class="row mt-2">
+    <p *ngIf="friendsList.length < 1" style="text-align:center;color:red;">YOU DON'T HAVE ANY FRIEND'S</p>
 <div class="col-md-4 sm-4 mt-2" *ngFor="let list of friendsList;let i=index">
 <mdb-card>
   <!--Card image-->
@@ -44,8 +45,8 @@
       </p>
     </mdb-card-text>
 
-    <a  mdbBtn color="primary" mdbWavesEffect (click)="onTodoList(list.userID)">TODO LIST</a>
-    <a  mdbBtn color="primary" mdbWavesEffect (click)="onUnfriend(list.userID,list._id);commonLoading()">UNFRIEND</a>
+    <a  mdbBtn color="info" mdbWavesEffect (click)="onTodoList(list.userID)">TODO LIST</a>
+    <a  mdbBtn color="danger" mdbWavesEffect (click)="onUnfriend(list.userID,list._id);commonLoading()">UNFRIEND</a>
   </mdb-card-body>
 </mdb-card>
 
@@ -56,6 +57,7 @@
 
 <div class="container" *ngIf="friendRequest && !loading">
 <div class="row mt-2">
+  <p *ngIf="friendRequestReceived.length < 1" style="text-align:center;color:red;">YOU DON'T HAVE ANY FRIEND REQUEST</p>
   <div class="col-md-4 sm-4 mt-2" *ngFor="let list of friendRequestReceived;let i=index">
   <mdb-card>
     <!--Card image-->
@@ -71,8 +73,8 @@
       <mdb-card-text> {{list.email}}
       </mdb-card-text>
 
-      <a mdbBtn color="primary" mdbWavesEffect (click)="onAccept(list.userID,list.Name,list.email,list._id);commonLoading()">ACCEPT</a>
-      <a mdbBtn color="primary" mdbWavesEffect (click)="onRejectFriendReqest(list.userID,list._id);commonLoading()">REJECT</a>
+      <a mdbBtn color="success" mdbWavesEffect (click)="onAccept(list.userID,list.Name,list.email,list._id);commonLoading()">ACCEPT</a>
+      <a mdbBtn color="danger" mdbWavesEffect (click)="onRejectFriendReqest(list.userID,list._id);commonLoading()">REJECT</a>
     </mdb-card-body>
   </mdb-card>
 
@@ -83,6 +85,7 @@
 
 <div class="container" *ngIf="search && !loading">
 <div class="row mt-2">
+<p *ngIf="allUsersListDetails.length < 1" style="text-align:center;color:red;">SEARCH RESULT : 0</p>
 <div class="col-md-4 sm-4 mt-2" *ngFor="let list of allUsersListDetails;let i=index">
 <mdb-card>
   <!--Card image-->
@@ -101,7 +104,7 @@
       </p>
     </mdb-card-text>
 
-    <a mdbBtn color="primary" mdbWavesEffect (click)="onSendRequest(list._id,list.name,list.email);commonLoading()">SEND REQUEST</a>
+    <a mdbBtn color="success" mdbWavesEffect (click)="onSendRequest(list._id,list.name,list.email);commonLoading()">SEND REQUEST</a>
   </mdb-card-body>
 </mdb-card>
 
@@ -113,6 +116,7 @@
 
 <div class="container" *ngIf="friendRequestSent && !loading">
 <div class="row mt-2">
+  <p *ngIf="friendRequestSentUsers.length < 1" style="text-align:center;color:red;">YOU DIDN'T SEND ANY FRIEND REQUEST</p>
   <div class="col-md-4 sm-4 mt-2" *ngFor="let list of friendRequestSentUsers;let i=index">
   <mdb-card>
     <!--Card image-->
@@ -128,7 +132,7 @@
       <mdb-card-text> {{list.email}}
       </mdb-card-text>
 
-      <a mdbBtn color="primary" mdbWavesEffect (click)="onCancelFriendRequest(list.userID,list._id);commonLoading()">CANCEL REQUEST</a>
+      <a mdbBtn color="danger" mdbWavesEffect (click)="onCancelFriendRequest(list.userID,list._id);commonLoading()">CANCEL REQUEST</a>
     </mdb-card-body>
   </mdb-card>
 
@@ -150,7 +154,7 @@
       </div>
       <div class="modal-body mx-3">
       <form class="text-center border border-light p-5"  (submit)="onSearchFriend(searchFriend)" #searchFriend="ngForm">
-      <p class="h4 mb-4">ENTER FRIEND NAME</p>
+      <p class="h4 mb-4">ENTER YOUR FRIEND NAME</p>
      <div class="form-group">
       <div class="md-form">
       <input type="text" id="defaultLoginFormEmail" name="friend"

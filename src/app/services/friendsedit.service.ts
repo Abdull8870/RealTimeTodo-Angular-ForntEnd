@@ -18,6 +18,7 @@ export class FriendsEditService {
   private id:string;
   private activity = new Subject<{Activity:Todo}>();
   private fId:string;
+  private friendId:string;
 
 
   constructor(private http: HttpClient, private router: Router,
@@ -25,15 +26,29 @@ export class FriendsEditService {
     this.fId=localStorage.getItem("fId");
   }
 
+  /**
+ * @description Sends the todo list for edit as an observable when called
+ * @author Abdul Rahuman
+ */
+
 
   getActivityAsObervable(){
     return this.activity.asObservable();
   }
 
+  storeUserId(id:string){
+    this.friendId=id;
+  }
+
+  /**
+ * @description request the server to get the todo list details to edit
+ * @author Abdul Rahuman
+ */
+
 
   getEditActivity(id:string) {
 
-    const queryParams = `?id=${id}`;
+    const queryParams = `?id=${id}&friendId=${this.fId}`;
 
     this.http.get<{message:"SUCCESS",data:Todo}>(BACKEND_URL + "get" + queryParams).
      subscribe(result=>{
@@ -48,14 +63,22 @@ export class FriendsEditService {
   }
 
 
+  /**
+ * @description request the server to change the title of the todo list
+ * @author Abdul Rahuman
+ */
+
+
+
   changeTitle(id:string,title:string,information:string) {
 
     const data={
       id:id,
       title:title
     };
+    const queryParams= `?friendId=${this.friendId}`;
 
-    this.http.post<{message:"SUCCESS"}>(BACKEND_URL + "title",data).
+    this.http.post<{message:"SUCCESS"}>(BACKEND_URL + "title" + queryParams,data).
      subscribe(result=>{
 
      this.getEditActivity(id);
@@ -74,12 +97,19 @@ export class FriendsEditService {
 
   }
 
+  /**
+ * @description request the server to change the description of the todo list
+ * @author Abdul Rahuman
+ */
+
   changeDesc(id:string,desc:string,information:string){
     const data={
       id:id,
       desc:desc
     };
-    this.http.post<{message:"SUCCESS"}>(BACKEND_URL + "desc",data).
+    const queryParams= `?friendId=${this.friendId}`;
+
+    this.http.post<{message:"SUCCESS"}>(BACKEND_URL + "desc"+ queryParams,data).
      subscribe(result=>{
 
      this.getEditActivity(id);
@@ -96,13 +126,22 @@ export class FriendsEditService {
     });
   }
 
+
+  /**
+ * @description request the server to change the item name in the todo list
+ * @author Abdul Rahuman
+ */
+
+
   changeItemName(id:string,itemId:string,itemName:string,information:string){
     const data={
       id:id,
       itemId:itemId,
       itemName:itemName
     };
-    this.http.post<{message:"SUCCESS"}>(BACKEND_URL + "item",data).
+    const queryParams= `?friendId=${this.friendId}`;
+
+    this.http.post<{message:"SUCCESS"}>(BACKEND_URL + "item" + queryParams,data).
      subscribe(result=>{
 
      this.getEditActivity(id);
@@ -119,6 +158,12 @@ export class FriendsEditService {
     });
   }
 
+
+  /**
+ * @description request the server to change the sub item name in the todo list
+ * @author Abdul Rahuman
+ */
+
   changeSubItemName(id:string,itemId:string,subItemId:string,subItemName:string,information:string){
     const data={
       id:id,
@@ -126,7 +171,8 @@ export class FriendsEditService {
       subItemId:subItemId,
       subItemName:subItemName
     };
-    this.http.post<{message:"SUCCESS"}>(BACKEND_URL + "subItem",data).
+    const queryParams= `?friendId=${this.friendId}`;
+    this.http.post<{message:"SUCCESS"}>(BACKEND_URL + "subItem" + queryParams,data).
      subscribe(result=>{
 
      this.getEditActivity(id);
@@ -143,12 +189,18 @@ export class FriendsEditService {
     });
   }
 
+  /**
+ * @description request the server to delete an item in the todo list
+ * @author Abdul Rahuman
+ */
+
   deleteItem(id:string,itemId:string,information:string){
     const data={
       id:id,
       itemId:itemId
     };
-    this.http.post<{message:"SUCCESS"}>(BACKEND_URL + "deleteitem",data).
+    const queryParams= `?friendId=${this.friendId}`;
+    this.http.post<{message:"SUCCESS"}>(BACKEND_URL + "deleteitem" + queryParams,data).
      subscribe(result=>{
 
      this.getEditActivity(id);
@@ -163,13 +215,20 @@ export class FriendsEditService {
     });
   }
 
+  /**
+ * @description request the server to delete a sub item in the todo list
+ * @author Abdul Rahuman
+ */
+
+
   deleteSubItem(id:string,itemId:string,subItemId:string,information:string){
     const data={
       id:id,
       itemId:itemId,
       subItemId:subItemId
     };
-    this.http.post<{message:"SUCCESS"}>(BACKEND_URL + "deleteSubItem",data).
+    const queryParams= `?friendId=${this.friendId}`;
+    this.http.post<{message:"SUCCESS"}>(BACKEND_URL + "deleteSubItem" + queryParams,data).
      subscribe(result=>{
 
      this.getEditActivity(id);
@@ -185,12 +244,17 @@ export class FriendsEditService {
     });
   }
 
+  /**
+ * @description request the server to delete a todo list
+ * @author Abdul Rahuman
+ */
 
     deleteActivity(id:string,information:string) {
       const data={
         id:id
       };
-      this.http.post<{message:"SUCCESS"}>(BACKEND_URL + "deleteActivity",data).
+      const queryParams= `?friendId=${this.friendId}`;
+      this.http.post<{message:"SUCCESS"}>(BACKEND_URL + "deleteActivity" + queryParams ,data).
        subscribe(result=>{
        this.router.navigate(["/Ftodo",this.fId]);
        // this.getEditActivity(id);
@@ -206,6 +270,10 @@ export class FriendsEditService {
 
     }
 
+    /**
+   * @description triggers notification on error
+   * @author Abdul Rahuman
+   */
 
     displayError(content:string) {
       this.toastr.error(`${content}`, 'AN ERROR OCCURED', {

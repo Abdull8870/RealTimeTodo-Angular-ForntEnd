@@ -27,13 +27,19 @@ export class AuthService {
   constructor(private http: HttpClient, private router: Router,
   private toastr: ToastrService,private todoService:TodoService,private friendsService:FriendService) {}
 
+// Sends the user token
+
   getToken() {
     return this.token;
   }
 
+  // sends the current user email id
+
   getCurrentUserEmail(){
     return this.useremail.asObservable();
   }
+
+   //stores the email in the subject to send it as an observable
 
   getEmail(){
     const email=localStorage.getItem("email");
@@ -43,17 +49,32 @@ export class AuthService {
     this.useremail.next({useremail:email.toLowerCase()});
   }
 
+
+
+ // get the status of the user whether isAuthenticated or not
   getIsAuth() {
     return this.isAuthenticated;
   }
+
+  // sends the userId of the user
 
   getUserId() {
     return this.userId;
   }
 
+
+  // sends the authenticated status as an observable
+
   getAuthStatusListener() {
     return this.authStatusListener.asObservable();
   }
+
+
+  /**
+ * @description request the server to reset the password
+ * @author Abdul Rahuman
+ */
+
 
   forgetPassword(email:string) {
     const _email={email:email};
@@ -74,6 +95,12 @@ export class AuthService {
    );
 
   }
+
+  /**
+ * @description request the server to send reset code to our mail id
+ * @author Abdul Rahuman
+ */
+
 
   resetPassword(password:string,code:string) {
     const uId=localStorage.getItem("ResetuserId");
@@ -96,10 +123,18 @@ export class AuthService {
     );
   }
 
+
+  /**
+ * @description request the server to create a new user
+ * @author Abdul Rahuman
+ */
+
+
   createUser(data:User) {
     const authData: User = data;
     this.http.post(BACKEND_URL + "signup", authData).subscribe(
       () => {
+
         this.router.navigate(["/login"]);
       },
       error => {
@@ -112,6 +147,13 @@ export class AuthService {
       }
     );
   }
+
+
+  /**
+ * @description request the server to login the user
+ * @author Abdul Rahuman
+ */
+
 
   login(email: string, password: string) {
 
@@ -161,6 +203,12 @@ export class AuthService {
       );
   }
 
+  /**
+ * @description sets the automatic log out of the user after logged in
+ * @author Abdul Rahuman
+ */
+
+
   autoAuthUser() {
     const authInformation = this.getAuthData();
     if (!authInformation) {
@@ -178,6 +226,12 @@ export class AuthService {
     }
   }
 
+  /**
+ * @description request the server to log out
+ * @author Abdul Rahuman
+ */
+
+
   logout() {
     this.token = null;
     this.isAuthenticated = false;
@@ -192,17 +246,35 @@ export class AuthService {
 
     }
 
+    /**
+   * @description sets authtimer for logout
+   * @author Abdul Rahuman
+   */
+
+
   private setAuthTimer(duration: number) {
     this.tokenTimer = setTimeout(() => {
       this.logout();
     }, duration * 1000);
   }
 
+  /**
+ * @description storing the authencation details
+ * @author Abdul Rahuman
+ */
+
+
   private saveAuthData(token: string, expirationDate: Date, userId: string) {
     localStorage.setItem("token", token);
     localStorage.setItem("expiration", expirationDate.toISOString());
     localStorage.setItem("userId", userId);
   }
+
+
+  /**
+ * @description clear the browser storage on logout
+ * @author Abdul Rahuman
+ */
 
   private clearAuthData() {
     localStorage.removeItem("token");
@@ -213,6 +285,11 @@ export class AuthService {
     localStorage.removeItem("fId");
     localStorage.removeItem("friendId");
   }
+
+  /**
+ * @description get the authencation details
+ * @author Abdul Rahuman
+ */
 
   private getAuthData() {
     const token = localStorage.getItem("token");
@@ -227,6 +304,14 @@ export class AuthService {
       userId: userId
     };
   }
+
+
+
+  /**
+ * @description request the server to send the details for signup
+ * @author Abdul Rahuman
+ */
+
 
    getCountryCodes(){
 
@@ -247,6 +332,10 @@ export class AuthService {
      });
   }
 
+  /**
+ * @description send the signup details as an observable
+ * @author Abdul Rahuman
+ */
 
  getPhoneAsObservable(){
    return this.phoneCodeListner.asObservable();

@@ -54,6 +54,11 @@ export class TodoComponent implements OnInit {
 
     }
 
+    @HostListener('window:keydown', ['$event'])
+      keyEventDown(event: KeyboardEvent) {
+
+      }
+
 
   ngOnInit(): void {
     this.loading=true;
