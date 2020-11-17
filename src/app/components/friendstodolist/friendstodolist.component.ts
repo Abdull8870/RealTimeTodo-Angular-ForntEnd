@@ -85,11 +85,13 @@ export class FriendstodolistComponent implements OnInit,OnDestroy {
 
   }
 
+    // Stores the activity id which needs to be edited
 
   activiyId(id:string){
     this.activityId=id;
   }
 
+    // Sends the information of the modification made on the todo list
 
    onSubmit(form:NgForm){
      let name=form.value.activity;
@@ -103,6 +105,8 @@ export class FriendstodolistComponent implements OnInit,OnDestroy {
       form.reset();
    }
 
+    // Sends the information of the modification made on the todo list
+
    onSubItem(form:NgForm){
      let subItem=form.value.activity;
 
@@ -111,17 +115,24 @@ export class FriendstodolistComponent implements OnInit,OnDestroy {
      form.reset();
    }
 
+      // Sends the information of the modification made on the todo list
+
    onNewListItem(form:NgForm){
      let newList=form.value.Subactivity;
      this.todoService.addNewList(newList,this.activityId);
      this.loading=true;
    }
 
+      // Sends the information of the modification made on the todo list
+
    onListDone(activityId:string,listId:string,activityName:string,listName:string){
           let information=`${this.name} has chenge the list  ${listName} in the todoactvity ${activityName} as open`;
      this.todoService.markListDone(activityId,listId,information);
      this.loading=true;
    }
+
+       // Sends the information of the modification made on the todo list
+
 
    onDoneSubItem(activityId:string,listId:string,subListId:string,
      activityName:string,listName:string,subItemName:string){
@@ -131,6 +142,8 @@ export class FriendstodolistComponent implements OnInit,OnDestroy {
      this.loading=true;
    }
 
+     // Sends the information of the modification made on the todo list
+
    onOpenSubItem(activityId:string,listId:string,subListId:string,
      activityName:string,listName:string,subItemName:string){
       let information=`${this.name} has marked the subitem ${subItemName}
@@ -139,6 +152,7 @@ export class FriendstodolistComponent implements OnInit,OnDestroy {
      this.loading=true;
    }
 
+  // Sends the information of the modification made on the todo list
 
    onListOpen(activityId:string,listId:string,activityName:string,listName:string){
      let information=`${this.name} has marked the list  ${listName} in the todoactvity ${activityName} as completed`;
@@ -146,22 +160,30 @@ export class FriendstodolistComponent implements OnInit,OnDestroy {
      this.loading=true;
    }
 
+  // activity which needs to be undone
+
    onUndo(id:string,activityName:string){
      let information=`${this.name} has done undo for the todoactvity: ${activityName}`
      this.todoService.undo(id,information);
      this.loading=true;
    }
 
+      // navigates to the todo list edit page
+
    onEdit(id:string){
      this.router.navigate(["/Fedit",id]);
 
    }
+
+     // Sends the information of the modification made on the todo list
 
    onCompleteActivity(id:string,activityName:string){
     let information=`${this.name} has marked the activity ${activityName} as completed`
     this.todoService.markActivityCompleted(id,information);
     this.loading=true;
    }
+
+     // Navigates to the friends deleted todo list
 
    onFriendsDeletedList(){
    this.router.navigate(["/Fdeleted",this.id]);

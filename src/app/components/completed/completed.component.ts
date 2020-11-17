@@ -40,6 +40,11 @@ export class CompletedComponent implements OnInit {
    });
   }
 
+  /**
+  * @description used to reopen a todo list
+  * @author Abdul Rahuman
+  */
+
   onOpenActivity(id:string,activityName:string){
     this.loading=true;
     this.todoService.openActivity(id);

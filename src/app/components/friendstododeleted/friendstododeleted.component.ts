@@ -73,11 +73,25 @@ export class FriendstododeletedComponent implements OnInit ,OnDestroy{
 
   }
 
+
+  /**
+ * @description Sends the todo list information to the service to restore the todo list
+ * @author Abdul Rahuman
+ */
+
+
   OnRestoreActivity(id:string,activityName:string){
     let information=`${this.name} has restored the activity ${activityName}`;
     this.loading=true;
     this.todoService.restoreActivity(id,information);
   }
+
+
+  /**
+ * @description Navigates to the friends all todo list data
+ * @author Abdul Rahuman
+ */
+
 
   onBackFriendsActivities(){
     this.router.navigate(["/Ftodo",this.id]);
@@ -87,4 +101,5 @@ export class FriendstododeletedComponent implements OnInit ,OnDestroy{
     this.liveSub.unsubscribe();
     this.unfriendSub.unsubscribe();
   }
+
 }

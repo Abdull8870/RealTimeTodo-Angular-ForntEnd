@@ -64,6 +64,10 @@ export class FriendsComponent implements OnInit {
 
   }
 
+  /**
+ * @description To give the users when searched with their name
+ * @author Abdul Rahuman
+ */
 
 
 
@@ -97,12 +101,21 @@ export class FriendsComponent implements OnInit {
   }
 
 
+  /**
+  * @description Navigates to friends todo list
+  * @author Abdul Rahuman
+  */
+
 
   onTodoList(id:string){
     localStorage.setItem("friendId",id);
     this.router.navigate(['/Ftodo',id]);
   }
 
+  /**
+  * @description Shows all friends of the user
+  * @author Abdul Rahuman
+  */
 
   onFriends(){
     this.loading=true;
@@ -121,6 +134,12 @@ export class FriendsComponent implements OnInit {
 
 
   }
+
+  /**
+  * @description Shows all friends request received by the user
+  * @author Abdul Rahuman
+  */
+
 
   onFriendRequests(){
     this.loading=true;
@@ -141,6 +160,12 @@ export class FriendsComponent implements OnInit {
 
   }
 
+  /**
+  * @description Get the friends list with the name user searched for
+  * @author Abdul Rahuman
+  */
+
+
   onSearchFriend(form:NgForm){
    const name=form.value.friend.toLowerCase();
 
@@ -156,6 +181,13 @@ export class FriendsComponent implements OnInit {
    this.search=true;
    form.reset();
   }
+
+  /**
+  * @description Get all the friend request sent by the user
+  * @author Abdul Rahuman
+  */
+
+
 
   onSendRequest(id:string,name:string,email:string){
 
@@ -184,6 +216,11 @@ export class FriendsComponent implements OnInit {
 
   }
 
+  /**
+  * @description used to send request to a friend
+  * @author Abdul Rahuman
+  */
+
   onFriendRequestSent(){
 
     this.friends=false;
@@ -206,6 +243,11 @@ export class FriendsComponent implements OnInit {
 
   }
 
+  /**
+  * @description used to revoke a request to a friend
+  * @author Abdul Rahuman
+  */
+
   onCancelFriendRequest(userID:string,storedId:string){
 
     this.friendsService.cancelFriendsRequest(userID,storedId).subscribe(result=>{
@@ -227,6 +269,11 @@ export class FriendsComponent implements OnInit {
 
   }
 
+  /**
+  * @description used to accept a friend request
+  * @author Abdul Rahuman
+  */
+
   onAccept(userID:string,name:string,email:string,_id:string){
 
     this.friendsService.acceptFriendRequest(userID,name,email,_id).subscribe(result=>{
@@ -246,6 +293,11 @@ export class FriendsComponent implements OnInit {
 
     }
 
+    /**
+    * @description used to reject a friend request
+    * @author Abdul Rahuman
+    */
+
     onRejectFriendReqest(userID:string,_id:string){
       this.friendsService.rejectFriendRequest(userID,_id).subscribe(result=>{
         this.onFriendRequests();
@@ -261,6 +313,11 @@ export class FriendsComponent implements OnInit {
       });
 
     }
+
+    /**
+    * @description used to unfriend
+    * @author Abdul Rahuman
+    */
 
     onUnfriend(userID:string,_id:string){
 
@@ -282,6 +339,11 @@ export class FriendsComponent implements OnInit {
     commonLoading(){
         this.loading=true;
     }
+
+    /**
+    * @description notification on error
+    * @author Abdul Rahuman
+    */
 
     displayError(content:string) {
       this.toastr.error(`${content}`, 'AN ERROR OCCURED', {

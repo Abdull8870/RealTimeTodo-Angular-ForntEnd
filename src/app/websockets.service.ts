@@ -9,12 +9,13 @@ import { HttpClient } from '@angular/common/http';
 export class WebsocketsService {
 
   public socket:any;
-  BACKEND_URL:string="http://expensesplitterbackend-env.eba-vpaafhyz.us-east-2.elasticbeanstalk.com";
+  BACKEND_URL:string="http://localhost:3000";
 
   constructor(private http: HttpClient) {
     this.socket=io(this.BACKEND_URL);
 
   }
+
 
   listenLiveProjects(id:string){
 
@@ -27,10 +28,15 @@ export class WebsocketsService {
 }
 
 
+
+
+
     emitFriendsUpdates(updateDetails:{friend:string,information:string}){
 
      this.socket.emit("friendsupdates",updateDetails);
     }
+
+
 
 
     listenLivetodoUpdate(id:string){
@@ -42,6 +48,8 @@ export class WebsocketsService {
 
      });
     }
+
+
 
     listenLiveActivity(id:string){
 

@@ -30,6 +30,12 @@ export class TodoComponent implements OnInit {
   constructor(private todoService:TodoService,private router: Router,private modalService: MDBModalService) { }
 
 
+      /**
+      * @description for undo action using control+z
+      * @author Abdul Rahuman
+      */
+
+
   @HostListener('window:keyup', ['$event'])
     keyEvent(event: KeyboardEvent) {
 
@@ -84,10 +90,14 @@ export class TodoComponent implements OnInit {
 
   }
 
+  // stores the todo list and item id
+
   onAddSubItem(activityId:string,listId:string){
     this.addSubActivityId=activityId;
     this.itemID=listId;
   }
+
+  // stores the todo list ID
 
   activiyId(id:string){
     this.activityId=id;
@@ -98,15 +108,21 @@ export class TodoComponent implements OnInit {
      this.plan=true;
    }
 
+  // gives the todo list which needs to be undo the last modified item
+
    onUndoActivity(form:NgForm){
    this.onUndo(form.value.undo);
    this.modalRef.hide();
 
    }
 
+
+
    onCancelUndo(){
         this.modalRef.hide();
    }
+
+   // Sends theDetails of the todo list to the todo service
 
    onSubmit(form:NgForm){
      let name=form.value.activity;
@@ -120,6 +136,8 @@ export class TodoComponent implements OnInit {
       form.reset();
    }
 
+   // on addition of new sub item it gives the name
+
    onSubItem(form:NgForm){
      let subItem=form.value.activity;
 
@@ -128,6 +146,8 @@ export class TodoComponent implements OnInit {
      form.reset();
    }
 
+   // on addition of new item it gives the name
+
    onNewListItem(form:NgForm){
      let newList=form.value.Subactivity;
      this.todoService.addNewList(newList,this.activityId);
@@ -135,36 +155,52 @@ export class TodoComponent implements OnInit {
      form.reset();
    }
 
+   // sends the information of the item which is marked as done
+
    onListDone(activityId:string,listId:string){
      this.todoService.markListDone(activityId,listId);
      this.loading=true;
    }
+
+
+   // sends the information of the sub item which is marked as done
+
 
    onDoneSubItem(activityId:string,listId:string,subListId:string){
      this.todoService.markSubListDone(activityId,listId,subListId);
      this.loading=true;
    }
 
+
+     // sends the information of the sub item which is marked as open
+
    onOpenSubItem(activityId:string,listId:string,subListId:string){
      this.todoService.markSubListOpen(activityId,listId,subListId);
      this.loading=true;
    }
 
+     // sends the information of tem which is marked as open
 
    onListOpen(activityId:string,listId:string){
      this.todoService.markListOpen(activityId,listId);
      this.loading=true;
    }
 
+    // sends the information of the todo list for undo action
+
    onUndo(id:string){
      this.todoService.undo(id);
      this.loading=true;
    }
 
+    // Navigates to the page with the respective edit todo list
+
    onEdit(id:string){
      this.router.navigate(["/edit",id]);
 
    }
+
+    // gives the list of todo list which were completed
 
    onCompleteActivity(id:string){
     this.todoService.markActivityCompleted(id);

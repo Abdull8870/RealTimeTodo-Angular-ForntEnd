@@ -74,11 +74,15 @@ export class FriendstodoEditComponent implements OnInit,OnDestroy {
     });
   }
 
+  // Stores the todo list and item id
+
   itemId(id:string,itemName:string){
     this.listName=itemName;
     this.mainItemId=id;
 
   }
+
+  // stores the todo list item and sub item id's
 
   subItemId(iId:string,sId:string,itemName:string,subItemName:string){
     this.cSubItemId=sId;
@@ -86,6 +90,12 @@ export class FriendstodoEditComponent implements OnInit,OnDestroy {
     this.listName=itemName;
     this.subListName=subItemName;
   }
+
+  /**
+ * @description Sends the new title of the todo list to the server
+ * @author Abdul Rahuman
+ */
+
 
   onChangeTitle(form:NgForm){
 
@@ -96,6 +106,12 @@ export class FriendstodoEditComponent implements OnInit,OnDestroy {
     form.reset();
   }
 
+  /**
+ * @description Sends the new description of the todo list to the server
+ * @author Abdul Rahuman
+ */
+
+
   onChangeDesc(form:NgForm){
    this.isLoading=true;
    const desc=form.value.cDesc;
@@ -103,6 +119,12 @@ export class FriendstodoEditComponent implements OnInit,OnDestroy {
    this.editService.changeDesc(this.id,desc,information);
    form.reset();
   }
+
+  /**
+ * @description Sends the new sub item name of the todo list to the server
+ * @author Abdul Rahuman
+ */
+
 
   onChangeSubItem(form:NgForm){
   this.isLoading=true;
@@ -112,6 +134,12 @@ export class FriendstodoEditComponent implements OnInit,OnDestroy {
   form.reset();
   }
 
+  /**
+ * @description Sends the new item name of the todo list to the server
+ * @author Abdul Rahuman
+ */
+
+
   onChangeItem(form:NgForm){
   this.isLoading=true;
   const itemName=form.value.cItem;
@@ -120,6 +148,12 @@ export class FriendstodoEditComponent implements OnInit,OnDestroy {
    form.reset();
   }
 
+  /**
+ * @description Sends the information about the item to be deleted to the server
+ * @author Abdul Rahuman
+ */
+
+
   onDeleteItem(iId:string,itemName:string){
     this.listName=itemName;
     this.isLoading=true;
@@ -127,6 +161,13 @@ export class FriendstodoEditComponent implements OnInit,OnDestroy {
     let information=`${this.name} has deleted the list ${this.listName} in todoactvity ${this.activityName}`;
     this.editService.deleteItem(this.id,this.mainItemId,information);
   }
+
+  /**
+ * @description Sends the information about the sub item to be deleted to the server
+ * @author Abdul Rahuman
+ */
+
+
 
   onDeleteSubItem(iId:string,sId:string,itemName:string,subItemName:string){
     this.listName=itemName;
@@ -139,11 +180,24 @@ export class FriendstodoEditComponent implements OnInit,OnDestroy {
      this.editService.deleteSubItem(this.id,this.mainItemId,this.cSubItemId,information);
   }
 
+
+  /**
+ * @description Sends the information about the todo list to be deleted to the server
+ * @author Abdul Rahuman
+ */
+
+
   onDeleteActivity(){
     this.isLoading=true;
     let information=`${this.name} has deleted todoactvity ${this.activityName}`;
     this.editService.deleteActivity(this.id,information);
   }
+
+  /**
+ * @description Navigates to friends all todo list page
+ * @author Abdul Rahuman
+ */
+
 
   onBackFriendsActivities(){
     let id=localStorage.getItem("friendId");

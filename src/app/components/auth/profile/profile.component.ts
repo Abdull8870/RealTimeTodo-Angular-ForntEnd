@@ -18,6 +18,11 @@ export class ProfileComponent implements OnInit {
     this.isLoading=false;
   }
 
+  /**
+  * @description log out the user
+  * @author Abdul Rahuman
+  */
+
   onLogOut(){
     this.authService.logout();
   }

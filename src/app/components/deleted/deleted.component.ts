@@ -41,6 +41,11 @@ export class DeletedComponent implements OnInit {
 
   }
 
+  /**
+  * @description used to restore a todo list
+  * @author Abdul Rahuman
+  */
+
   OnRestoreActivity(id:string){
     this.loading=true;
     this.todoService.restoreActivity(id);

@@ -72,12 +72,22 @@ export class FriendstodocompletedComponent implements OnInit,OnDestroy {
 
   }
 
+  /**
+ * @description Reopens the todo list
+ * @author Abdul Rahuman
+ */
+
+
   onOpenActivity(id:string,activityName:string){
     let information=`${this.name} has re-opened the activity ${activityName}`;
     this.loading=true;
     this.todoService.openActivity(id,information);
   }
 
+  /**
+ * @description Navigates to the friends all todo list
+ * @author Abdul Rahuman
+ */
 
   onBackFriendsActivities(){
     this.router.navigate(["/Ftodo",this.id]);

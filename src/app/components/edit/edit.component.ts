@@ -48,15 +48,24 @@ export class EditComponent implements OnInit ,OnDestroy{
     });
   }
 
+  // Stored the item id
+
   itemId(id:string){
     this.mainItemId=id;
 
   }
 
+  // stores the subitem id as well as item id's
+
   subItemId(iId:string,sId:string){
     this.cSubItemId=sId;
     this.mainItemId=iId;
   }
+
+  /**
+  * @description sends the new title of the todo list to the server
+  * @author Abdul Rahuman
+  */
 
   onChangeTitle(form:NgForm){
     this.isLoading=true;
@@ -65,12 +74,22 @@ export class EditComponent implements OnInit ,OnDestroy{
     form.reset();
   }
 
+  /**
+  * @description sends the new description of the todo list to the server
+  * @author Abdul Rahuman
+  */
+
   onChangeDesc(form:NgForm){
    this.isLoading=true;
    const desc=form.value.cDesc;
    this.editService.changeDesc(this.id,desc);
    form.reset();
   }
+
+  /**
+  * @description sends the new sub item name of the todo list to the server
+  * @author Abdul Rahuman
+  */
 
   onChangeSubItem(form:NgForm){
   this.isLoading=true;
@@ -79,6 +98,12 @@ export class EditComponent implements OnInit ,OnDestroy{
   form.reset();
   }
 
+
+  /**
+  * @description sends the new item name of the todo list to the server
+  * @author Abdul Rahuman
+  */
+
   onChangeItem(form:NgForm){
   this.isLoading=true;
   const itemName=form.value.cItem;
@@ -86,11 +111,21 @@ export class EditComponent implements OnInit ,OnDestroy{
   form.reset();
   }
 
+  /**
+  * @description sends the item to be deleted to the server
+  * @author Abdul Rahuman
+  */
+
   onDeleteItem(iId:string){
     this.isLoading=true;
      this.mainItemId=iId;
      this.editService.deleteItem(this.id,this.mainItemId);
   }
+
+  /**
+  * @description sends the sub item to be deleted to the server
+  * @author Abdul Rahuman
+  */
 
   onDeleteSubItem(iId:string,sId:string){
     this.isLoading=true;
@@ -98,6 +133,11 @@ export class EditComponent implements OnInit ,OnDestroy{
     this.mainItemId=iId;
      this.editService.deleteSubItem(this.id,this.mainItemId,this.cSubItemId);
   }
+
+  /**
+  * @description sends the todo list to be deleted to the server
+  * @author Abdul Rahuman
+  */
 
   onDeleteActivity(){
     this.isLoading=true;

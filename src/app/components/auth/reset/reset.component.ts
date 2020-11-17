@@ -23,11 +23,21 @@ export class ResetComponent implements OnInit {
       localStorage.removeItem("email");
     }
 
+    /**
+    * @description sends the email id of the user for password reset to the server
+    * @author Abdul Rahuman
+    */
+
     onForgetPassword(form: NgForm)
     {
       this.authService.forgetPassword(form.value.email);
       this.isForgetPassword=false;
     }
+
+    /**
+    * @description sends the reset code and new password to the server
+    * @author Abdul Rahuman
+    */
 
     onRest(form: NgForm){
       this.isLoading=true;

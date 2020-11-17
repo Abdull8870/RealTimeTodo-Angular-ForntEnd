@@ -24,6 +24,13 @@ isLoading = false;
 constructor(private authService:AuthService,private http: HttpClient,
 private router: Router) { }
 
+
+/**
+* @description sends all the required details of the user for signup
+* @author Abdul Rahuman
+*/
+
+
   onSignup(form: NgForm) {
   this.isLoading=true;
   let phoneNum=form.value.phoneCode+''+form.value.phoneNumber;
@@ -63,6 +70,11 @@ ngOnInit(): void {
    ngOnDestroy():void {
    this.authStatusSub.unsubscribe();
      }
+
+     /**
+     * @description navigates to login page if already registered
+     * @author Abdul Rahuman
+     */
 
      onAlreadyMember(){
          this.router.navigate(["/login"]);

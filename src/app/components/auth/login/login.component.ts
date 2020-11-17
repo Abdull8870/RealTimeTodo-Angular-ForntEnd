@@ -17,12 +17,29 @@ export class LoginComponent implements OnInit,OnDestroy {
 
  constructor(private authService:AuthService,private router: Router) { }
 
+ /**
+ * @description navigates to password reset page
+ * @author Abdul Rahuman
+ */
+
  onForgetPassword(){
   this.router.navigate(["/reset"]);
 }
+
+/**
+* @description sends the credentials for login
+* @author Abdul Rahuman
+*/
+
+
   onLogin(form: NgForm) {
     this.authService.login(form.value.email,form.value.password);
   }
+
+  /**
+  * @description sends the email id of the user for password reset
+  * @author Abdul Rahuman
+  */
 
   onRest(form: NgForm){
      this.authService.forgetPassword(form.value.email);
@@ -41,6 +58,13 @@ export class LoginComponent implements OnInit,OnDestroy {
    ngOnDestroy():void{
    this.authStatusSub.unsubscribe();
  }
+
+
+ /**
+ * @description navigates to signup page
+ * @author Abdul Rahuman
+ */
+
 
   onSignUp(){
     this.router.navigate(["/signup"]);
